@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const employeeRoutes = require('./controllers/employee.controller');
+const { errorHandler } = require('./middlewares/index');
 
 let app = express();
 
@@ -15,7 +16,9 @@ app.use(bodyParser.json())
 //configure routing for the application, always put / at the begining of a route and nothing at the end of the route, on your router file add the following / only, so the route becomes 'localhost:5038/api/employees/' to get all existing data
 app.use('/api/employees', employeeRoutes);
 app.use('/api/employee/:id', employeeRoutes);
-app.use('/api/search', employeeRoutes);
+//make sure this error handler middleware comes after all the routes
+app.use(errorHandler);
+
 
 const port = process.env.PORT || 3000;
 
