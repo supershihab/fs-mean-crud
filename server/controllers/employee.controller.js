@@ -24,30 +24,30 @@ router.get('/', (req, res, next) => {
 router.get('/:id', validateDBID, (req, res, next) => {
     employeeCrudMethods.getById(req.params.id)
     .then(data => {
-      if(data) {
-        res.send(data)
-      } else {
-        recordNotFoundError(req, res);
-      }
+      if(data) res.send(data)
+       else recordNotFoundError(req, res);
+      
     })
     .catch(error => next(error));
 });
 
 router.put('/:id', validateDBID, (req, res, next) => {
-    employeeCrudMethods.updateById(req.params.id, req.body)
+    employeeCrudMethods.update(req.params.id, req.body)
     .then(data => {
-      if(data) {
-        res.send(data)
-      } else {
-        recordNotFoundError(req, res);
-      }
+      if(data) res.send(data)
+      else recordNotFoundError(req, res);
     })
     .catch(error => next(error));
 });
 
 
 router.delete('/:id', validateDBID, (req, res) => {
-
+  employeeCrudMethods.delete(req.params.id)
+  .then(data => {
+    if(data) res.send(data)
+    else recordNotFoundError(req, res);
+  })
+  .catch(error => next(error));
 });
 
 
