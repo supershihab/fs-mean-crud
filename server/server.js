@@ -16,7 +16,7 @@ const app = express();
 const port = process.env.port || 3000;
 
 //use middlewares
-app.use(cors());
+app.use(cors({origin:'http://localhost:4200'}));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 //use route middleware

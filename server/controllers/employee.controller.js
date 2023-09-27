@@ -28,8 +28,14 @@ const getEmployeeById = asyncHandler(async (req, res) => {
 //update single employee
 const updateEmployee = asyncHandler(async (req, res) => {
   try {
+    const updatedRecord = {
+      fullName: req.body.fullName,
+      position: req.body.position,
+      location: req.body.location,
+      salary: req.body.salary,
+    }
     const { id } = req.params;
-    const employee = await Employee.findByIdAndUpdate(id, req.body);
+    const employee = await Employee.findByIdAndUpdate(id, updatedRecord);
     if (!employee) {
       res.status(400);
       throw new Error('Employee not found');
@@ -62,7 +68,13 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 //create a single Employee
 const createEmployee = asyncHandler(async (req, res) => {
   try {
-    const employee = await Employee.create(req.body);
+    const newRecord = {
+      fullName: req.body.fullName,
+      position: req.body.position,
+      location: req.body.location,
+      salary: req.body.salary,
+    }
+    const employee = await Employee.create(newRecord);
     res.status(201).json(employee);
   } catch (error) {
     res.status(500).json({message: error.message});
