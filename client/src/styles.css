@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+form label {
+  color: grey;
+  text-transform: uppercase;
+}
+
+form input {
+  font-weight: 500;
+}
+
+form input::placeholder {
+  color: grey;
+  font-weight: 300 !important;
+}
+
+form button[type=submit] {
+  text-transform: uppercase;
+}

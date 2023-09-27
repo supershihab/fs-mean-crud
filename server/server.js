@@ -1,32 +1,37 @@
-'use strict'
-
+'use strict';
+//module imoprts
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+//local imports
+const emploeeRoutes = require('./routes/employee.route');
 const connectDB = require('./config/db');
-const employeeRoutes = require('./controllers/employee.controller');
-const { errorHandler } = require('./middlewares/index');
 
-let app = express();
+//initialize application
+const app = express();
 
-//middlewares
-app.use(bodyParser.json())
-//configure routing for the application, always put / at the begining of a route and nothing at the end of the route, on your router file add the following / only, so the route becomes 'localhost:5038/api/employees/' to get all existing data
-app.use('/api/employees', employeeRoutes);
-app.use('/api/employee/:id', employeeRoutes);
-//make sure this error handler middleware comes after all the routes
-app.use(errorHandler);
+//environment variables
+const port = process.env.port || 3000;
 
+//use middlewares
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+//use route middleware
+app.use('/api/employees', emploeeRoutes);
 
-const port = process.env.PORT || 3000;
+app.use('*', (req, res) => {
+  res.status(404).json({ message: 'Page Not Found' });
+});
 
 connectDB()
-  .then(() => {
-    console.log('¯\_(ツ)_/¯ Database connected successfully!');
-    app.listen(port, () =>{
-      console.log(`( •_•)>⌐■-■ Application running on port ${port} (⌐■_■) `);
-    });
-  })
-  .catch(error => console.log(`(⊙_⊙;) Database connection error: ${error} ಠ_ಠ `));
+.then(() => {
+  console.log(`Database connected successfully!`);
+  app.listen(port, () => {
+    console.log(`Application started on port ${port}..`);
+  });
+})
+.catch(error => console.log(error));
+
