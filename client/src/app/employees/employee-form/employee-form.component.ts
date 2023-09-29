@@ -20,6 +20,7 @@ export class EmployeeFormComponent {
       this.service.postEmployee().subscribe(res => {
         console.log('Response Saved!');
         // this.resetForm();
+        this.service.fetchEmployeeList();
       });
     }
   }

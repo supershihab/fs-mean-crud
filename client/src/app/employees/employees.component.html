@@ -9,7 +9,24 @@
     </div>
 
     <div class="col-md-6">
-      list of Employees will be shown here
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of service.list">
+            <td>{{emp.fullName}}</td>
+            <td>{{emp.position}}</td>
+            <td>{{emp.salary}}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
