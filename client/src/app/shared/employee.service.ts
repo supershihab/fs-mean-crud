@@ -17,7 +17,7 @@ export class EmployeeService {
   //use this form to design a form inside employee-form-component
   //we need to inject this EmployeeService class in employee-form-component to be able to use it, we'll inject it in the constructor publicly
   employeeForm = this.fb.group({
-    _id: [null],
+    _id: [''],
     fullName: ['', Validators.required],
     position: ['', Validators.required],
     location: [''],
@@ -26,17 +26,35 @@ export class EmployeeService {
 
   //to get all of the employees from db, we need to consume getAllEmployees() method from server API
   //Invoke this fetch method inside the parent employee.component.ts
-  fetchEmployeeList () {
-    this.http.get(this.baseUrl)
-    .pipe(catchError(this.handleError))
-    .subscribe(data => {
-      this.list = data as Employee[];
-    });
+  fetchEmployeeList() {
+    this.http
+      .get(this.baseUrl)
+      .pipe(catchError(this.handleError))
+      .subscribe((data) => {
+        this.list = data as Employee[];
+        // console.log(data);
+      });
   }
 
-  postEmployee () {
+  postEmployee() {
+    console.log(this.employeeForm.value);
     return this.http
       .post(this.baseUrl, this.employeeForm.value)
+      .pipe(catchError(this.handleError));
+  }
+
+  putEmployee() {
+    return this.http
+      .put(
+        this.baseUrl + this.employeeForm.get('_id')?.value,
+        this.employeeForm.value
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteEmployee (_id: string) {
+    return this.http
+      .delete(this.baseUrl + _id)
       .pipe(catchError(this.handleError));
   }
 

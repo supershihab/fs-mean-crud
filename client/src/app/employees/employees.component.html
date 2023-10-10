@@ -20,11 +20,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let emp of service.list">
-            <td>{{emp.fullName}}</td>
-            <td>{{emp.position}}</td>
+            <td (click)="populateForm(emp)">{{emp.fullName}}</td>
+            <td (click)="populateForm(emp)">{{emp.position}}</td>
             <td>{{emp.salary}}</td>
             <td>
-              <i class="far fa-trash-alt fa-lg text-secondary"></i>
+              <i class="far fa-trash-alt fa-lg text-secondary" (click)="onDelete(emp._id)"></i>
             </td>
           </tr>
         </tbody>

@@ -6,30 +6,39 @@ import { EmployeeService } from 'src/app/shared/employee.service';
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class EmployeeFormComponent {
-  submitted:boolean = false;
+  submitted: boolean = false;
   //we can now access the form-builder object inside the employee-form-component
-  constructor(public service:EmployeeService, private toastr: ToastrService) { }
+  constructor(public service: EmployeeService, private toastr: ToastrService) {}
   //form on submit handler
-  onSubmit(){
+  onSubmit() {
     this.submitted = true;
     if (this.service.employeeForm.valid) {
-      // console.log(this.service.employeeForm.value);
-      this.service.postEmployee().subscribe(res => {
-        console.log('Response Saved!');
-        this.toastr.success('Created Successfully', 'Employee Register');
-        // this.resetForm();
-        this.service.fetchEmployeeList();
-      });
+      debugger;
+      if (this.service.employeeForm.get('_id')?.value == '') {
+        this.service.postEmployee().subscribe((res) => {
+          console.log('Response Saved!');
+          this.toastr.success('Created Successfully', 'Employee Register');
+          // this.resetForm();
+          this.service.fetchEmployeeList();
+        });
+      } else {
+        this.service.putEmployee().subscribe((res) => {
+          this.service.fetchEmployeeList();
+          console.log('Response Updated!');
+          this.toastr.info('Updated Successfully', 'Employee Register');
+          // this.resetForm();  
+        });
+        // console.log(this.service.employeeForm.value);
+      }
     }
   }
 
-  // resetForm() {
-  //   this.service.employeeForm.reset(new Employee());
-  //   this.submitted = false;
-  // }
-
+  resetForm() {
+    this.service.employeeForm.reset();
+    // this.service.employeeForm.reset(new Employee());
+    this.submitted = false;
+  }
 }
