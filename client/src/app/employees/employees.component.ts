@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeService } from '../shared/employee.service';
-import { Employee } from '../shared/employee.model';
 import { ToastrService } from 'ngx-toastr';
+import { Employee } from '../shared/employee.model';
+import { EmployeeService } from '../shared/employee.service';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
+  styles: [],
 })
 export class EmployeesComponent implements OnInit {
-  //inject the service in the constructor to fetch all employees
   constructor(public service: EmployeeService, private toastr: ToastrService) {}
+
   ngOnInit(): void {
     this.service.fetchEmployeeList();
   }
@@ -26,10 +26,10 @@ export class EmployeesComponent implements OnInit {
   }
 
   onDelete(_id: string) {
-    if (confirm('Are you sure you want to delete this record?')) {
+    if (confirm('Are you sure to delete this record?')) {
       this.service.deleteEmployee(_id).subscribe((res) => {
         this.service.fetchEmployeeList();
-        this.toastr.error('Deleted Successfully', 'Employee Register');
+        this.toastr.error('Deleted successfully', 'Employee Register');
       });
     }
   }
